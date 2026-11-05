@@ -1,0 +1,30 @@
+name: CCCDNFCScanner
+options:
+  bundleIdPrefix: vn.cccdnfcscanner
+  deploymentTarget:
+    iOS: "16.0"
+packages:
+  ZIPFoundation:
+    url: https://github.com/weichsel/ZIPFoundation.git
+    from: 0.9.19
+targets:
+  CCCDNFCScanner:
+    type: application
+    platform: iOS
+    sources:
+      - path: CCCDNFCScanner
+    info:
+      path: CCCDNFCScanner/Info.plist
+    entitlements:
+      path: CCCDNFCScanner/CCCDNFCScanner.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: vn.cccdnfcscanner.app
+        PRODUCT_NAME: CCCDNFCScanner
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1"
+        IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+        CODE_SIGN_STYLE: Automatic
+    dependencies:
+      - package: ZIPFoundation
+        product: ZIPFoundation
