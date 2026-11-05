@@ -1,0 +1,41 @@
+
+name: Build CCCDNFCScanner iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build iOS app
+        run: |
+          xcodebuild \
+            -project CCCDNFCScanner.xcodeproj \
+            -scheme CCCDNFCScanner \
+            -sdk iphoneos \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Upload build products
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CCCDNFCScanner-build
+          path: build/DerivedData/Build/Products/Release-iphoneos/
+          if-no-files-found: warn
